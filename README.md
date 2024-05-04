@@ -23,7 +23,7 @@ $ npm install
 ```
 ### 3. Boot up local development blockchain
 ```
-$ cd DecentralizedSocialApp
+$ cd Decentralized-Social-Media-App
 $ npx hardhat node
 ```
 
