@@ -3,10 +3,14 @@ import { ethers } from "ethers";
 import { Link, BrowserRouter, Routes, Route } from "react-router-dom";
 import DecentralizedSocialAppAddress from "./contractsData/decentralizedSocialApp-address.json";
 import DecentralizedSocialAppAbi from "./contractsData/decentralizedSocialApp.json";
+import { useNavigate } from "react-router-dom";
 import Home from "./pages/Home";
+import Profile from "./pages/Profile";
 import "./App.css";
 
 function App() {
+  const navigate = useNavigate();
+
   const [loading, setloading] = useState(true);
   const [account, setAccount] = useState("");
   const [contract, setContract] = useState({});
@@ -47,30 +51,32 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-      <div className="min-h-screen flex flex-col bg-slate-200">
-        <div className="bg-red-400 p-[10px] flex justify-between text-white">
-          Hello
-          <button
-            className="border-white border-[2px] rounded-md p-[5px] cursor-pointer hover:text-black hover:border-black transition-all"
-            onClick={web3Handler}
-          >
-            {loading ? "Connect MetaMask" : account}
-          </button>
+    <div className="min-h-screen flex flex-col bg-slate-200">
+      <div className="bg-red-400 p-[10px] flex justify-between text-white">
+        <div className="flex gap-8">
+          <p>Hello</p>
+          <button onClick={() => navigate("/")}>Home</button>
+          <button onClick={() => navigate("/profile")}>Profile</button>
         </div>
-        {loading ? (
-          <div>Loading...</div>
-        ) : (
-          
-          <Routes>
-            <Route
-              path="/"
-              element={<Home contract={contract} account={account} />}
-            />
-          </Routes>
-        )}
+        <button
+          className="border-white border-[2px] rounded-md p-[5px] cursor-pointer hover:text-black hover:border-black transition-all"
+          onClick={web3Handler}
+        >
+          {loading ? "Connect MetaMask" : account}
+        </button>
       </div>
-    </BrowserRouter>
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <Routes>
+          <Route
+            path="/"
+            element={<Home contract={contract} account={account} />}
+          />
+          <Route path="/profile" element={<Profile contract={contract} />} />
+        </Routes>
+      )}
+    </div>
   );
 }
 
